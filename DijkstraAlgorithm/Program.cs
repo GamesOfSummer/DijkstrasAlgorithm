@@ -24,29 +24,23 @@ namespace DijkstraAlgorithm
             var array = new int[4,4]
             {
                 { 0,5,0,0 },
-                { 0,1,7,0,},
+                { 0,2,7,0,},
                 { 0,3,9,0 },
-                { 0,0,0,1 }
+                { 0,0,4,1 }
             };
 
 
-
-            for (int i = 0; i < array.GetLength(0); i++)
+            int currentx = 0, currenty = 0;
+            while(currentx != 4 && currenty != 4)
             {
-                for (int j = 0; j < array.GetLength(1); j++)
-                {
+                var edges = SearchForEdges(array, currentx, currenty);
+                var lowestValue = edges.OrderBy(x => x.value).First();
 
-                    SearchForEdges(array, i, j);
-
-                }
-
+                currentx = lowestValue.x;
+                currenty = lowestValue.y;
             }
 
-
-
-
-            var edges = SearchForEdges(array, 0, 0);
-            var lowestValue = edges.OrderBy(x => x.value).First();
+            
 
 
 
@@ -67,13 +61,17 @@ namespace DijkstraAlgorithm
                 for (int j = -1; j < 2; j++)
                 {
 
-                    if(!((x == i) && (y == j)) &&
+                    if( ((i != 0) && (j != 0)) &&
                         (x + i) >= 0 && (x + i) <= (array.GetLength(0) - 1) && 
-                        (y + j) >= 0 && (y + j) <= (array.GetLength(1) - 1) &&
+                        (y + j) >= 0 && (y + j) <= (array.GetLength(1) - 1) &&                  
                         array[x + i, y + j] != 0)
                     {
+
+
+                        
+
                         Console.Write(array[x + i, y + j]);
-                        holder.Add(new ArrayObject() { x = i, y = j, value = array[x + i, y + j] });
+                        holder.Add(new ArrayObject() { x = (x + i), y = (y + j), value = array[x + i, y + j] });
                     }
 
                 }
